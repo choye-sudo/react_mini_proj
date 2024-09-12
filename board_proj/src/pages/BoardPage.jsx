@@ -1,21 +1,10 @@
-import React, { useState } from 'react';
+import React, { useContext } from 'react';
+import { BoardContext } from '../BoardContext';
 import BoardForm from '../components/BoardForm';
 import BoardList from '../components/BoardList';
 
 function BoardPage() {
-  const [boards, setBoards] = useState([]);
-
-  const addBoard = (board) => {
-    setBoards([...boards, { ...board, id: boards.length + 1 }]);
-  };
-
-  const deleteBoard = (id) => {
-    setBoards(boards.filter(board => board.id !== id));
-  };
-
-  const updateBoard = (updatedBoard) => {
-    setBoards(boards.map(board => board.id === updatedBoard.id ? updatedBoard : board));
-  };
+  const { boards, addBoard, deleteBoard } = useContext(BoardContext);
 
   return (
     <div>

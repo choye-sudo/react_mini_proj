@@ -1,12 +1,13 @@
-import React, { useState } from 'react';
-import { useNavigate, useParams, useLocation } from 'react-router-dom';
+import React, { useState, useContext } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import { BoardContext } from '../BoardContext';
 
-function BoardDetail({ onUpdateBoard, onDeleteBoard }) {
+function BoardDetail() {
   const { id } = useParams();
-  const { state } = useLocation();
+  const { boards, updateBoard, deleteBoard } = useContext(BoardContext);
+  const board = boards.find(b => b.id === Number(id));
   const navigate = useNavigate();
 
-  const board = state?.board;
   const [isEditing, setIsEditing] = useState(false);
   const [title, setTitle] = useState(board ? board.title : '');
   const [content, setContent] = useState(board ? board.content : '');
@@ -16,13 +17,13 @@ function BoardDetail({ onUpdateBoard, onDeleteBoard }) {
   }
 
   const handleUpdate = () => {
-    onUpdateBoard({ id: board.id, title, content });
+    updateBoard({ id: board.id, title, content });
     setIsEditing(false);
     navigate('/board');
   };
 
   const handleDelete = () => {
-    onDeleteBoard(board.id);
+    deleteBoard(board.id);
     navigate('/board');
   };
 
